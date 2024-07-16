@@ -1,12 +1,12 @@
 {
 	"$schema": "https://raw.githubusercontent.com/atampy25/simple-mod-framework/main/Mod%20Manager/src/lib/manifest-schema.json",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"id": "Notex.SimpleTimeFreeze",
 	"name": "Simple Time Freeze",
 	"description": "Adds a keybind (F5) to freeze and unfreeze the game.",
 	"authors": ["Notex"],
 	"contentFolders": ["content"],
 	"requirements": ["Notex.SimpleKeyEventHelper"],
-	"frameworkVersion": "2.33.7",
+	"frameworkVersion": "2.33.18",
 	"updateCheck": "https://github.com/Notexe/h3-simple-time-freeze/releases/latest/download/updates.json"
 }
