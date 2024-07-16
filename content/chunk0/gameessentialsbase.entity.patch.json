@@ -1,0 +1,99 @@
+{
+	"tempHash": "0093B7139387B988",
+	"tbluHash": "004D99E9BEC3EA51",
+	"patch": [
+		{
+			"AddEntity": [
+				"cafe46e3e55ed103",
+				{
+					"parent": "6933599ccecbd1ed",
+					"name": "Simple Time Freeze",
+					"factory": "[modules:/zentity.class].pc_entitytype",
+					"blueprint": "[modules:/zentity.class].pc_entityblueprint"
+				}
+			]
+		},
+		{
+			"AddEntity": [
+				"cafe48e7c5250443",
+				{
+					"parent": "cafe46e3e55ed103",
+					"name": "GamePauseEntity",
+					"factory": "[modules:/zgamepauseentity.class].pc_entitytype",
+					"blueprint": "[modules:/zgamepauseentity.class].pc_entityblueprint",
+					"properties": {
+						"m_sPauseRequestID": {
+							"type": "ZString",
+							"value": "SimpleTimeFreeze"
+						}
+					},
+					"events": {
+						"OnPaused": { "SetTrue": ["cafe5daf7470a5ae"] },
+						"OnResumed": { "SetFalse": ["cafe5daf7470a5ae"] }
+					}
+				}
+			]
+		},
+		{
+			"AddEntity": [
+				"cafe5daf7470a5ae",
+				{
+					"parent": "cafe46e3e55ed103",
+					"name": "VB Paused",
+					"factory": "[assembly:/_pro/design/logic/valuebool.template?/valuebool_basic.entitytemplate].pc_entitytype",
+					"blueprint": "[assembly:/_pro/design/logic/valuebool.template?/valuebool_basic.entitytemplate].pc_entityblueprint",
+					"properties": {
+						"m_bValue": { "type": "bool", "value": false }
+					}
+				}
+			]
+		},
+		{
+			"AddEntity": [
+				"cafef42d05bb6b86",
+				{
+					"parent": "cafe46e3e55ed103",
+					"name": "ValueBool_Poll",
+					"factory": "[assembly:/_pro/design/logic/valuebool.template?/valuebool_poll.entitytemplate].pc_entitytype",
+					"blueprint": "[assembly:/_pro/design/logic/valuebool.template?/valuebool_poll.entitytemplate].pc_entityblueprint",
+					"properties": {
+						"m_rValueEntity": {
+							"type": "SEntityTemplateReference",
+							"value": "cafe5daf7470a5ae"
+						}
+					},
+					"events": {
+						"PollFalse": {
+							"RequestPause": ["cafe48e7c5250443"]
+						},
+						"PollTrue": {
+							"ReleasePause": ["cafe48e7c5250443"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"AddEntity": [
+				"cafe0c3d68a03a29",
+				{
+					"parent": "cafe46e3e55ed103",
+					"name": "SimpleKeyEventHelper",
+					"factory": "[assembly:/Templates/UI/Controls/simplekeyeventhelper.template?/SimpleKeyEventHelper.entitytemplate].pc_entitytype",
+					"blueprint": "[assembly:/Templates/UI/Controls/simplekeyeventhelper.template?/SimpleKeyEventHelper.entitytemplate].pc_entityblueprint",
+					"properties": {
+						"m_sModifierKeyName": {
+							"type": "ZString",
+							"value": "None"
+						},
+						"m_sKeyName": { "type": "ZString", "value": "F5" }
+					},
+					"events": {
+						"Pressed": { "Poll": ["cafef42d05bb6b86"] }
+					}
+				}
+			]
+		}
+	],
+	"patchVersion": 6
+}
